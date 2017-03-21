@@ -1,21 +1,40 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import Tabs from './Tabs'
 
 class App extends Component {
+  tabs = [
+    {
+      title: 'Tab#1',
+      content: 'Content#1'
+    },
+    {
+      title: 'Tab#2',
+      content: 'Content#2'
+    },
+    {
+      title: 'Tab#3',
+      content: 'Content#3'
+    }
+  ]
+
+  state = {
+    activeTab: 0
+  }
+
+  setActiveTab = (index) => {
+    this.setState({ activeTab: index })
+  }
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className='container mt-2'>
+        <Tabs 
+          tabs={this.tabs} 
+          activeTab={this.state.activeTab}
+          onTabChange={this.setActiveTab} />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
