@@ -1,0 +1,26 @@
+{
+  "name": "rest-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.1",
+    "cors": "^2.8.3",
+    "express": "^4.15.2",
+    "jsonwebtoken": "^7.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-env": "^1.2.2",
+    "dotenv": "^4.0.0",
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "dev": "nodemon --exec babel-node ./index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
