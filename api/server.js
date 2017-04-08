@@ -1,6 +1,7 @@
 import express from 'express'
 import fs from 'fs'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 import config from './config'
 import auth from './middlewares/auth'
 
@@ -24,6 +25,7 @@ export function setup() {
   const PORT = config.port
 
   app.use(auth)
+  app.use(cors())
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
   setupRoutes(app)

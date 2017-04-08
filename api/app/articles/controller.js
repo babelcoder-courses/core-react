@@ -3,7 +3,10 @@ import ArticlesPolicy from './policy'
 
 const ArticlesController = {
   getAll(req, res) {
-    res.json({ articles: Articles.findAll() })
+    const { categoryId, page, perPage } = req.query
+    const articles = Articles.paginate({ categoryId }, page, perPage)
+
+    res.json(articles)
   },
 
   get(req, res) {
@@ -14,7 +17,7 @@ const ArticlesController = {
     if(ArticlesPolicy.for('create', req.user)) {
       const article = Articles.create(req.body)
 
-      res.status(201).json(article)
+      res.status(201).json({ article })
     } else {
       res
         .status(401)

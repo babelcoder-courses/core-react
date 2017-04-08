@@ -1,6 +1,11 @@
 import db from '../db'
+import Finder from './finder'
+import Pagination from './pagination'
 
 const Model = {
+  ...Finder,
+  ...Pagination,
+  
   findAll() {
     return this.collection()
   },
@@ -45,14 +50,6 @@ const Model = {
 
   collection() {
     return db[this.key]
-  },
-
-  findRecord(id) {
-    return this.collection().find(record => record.id === +id)
-  },
-
-  findIndex(id) {
-    return this.collection().findIndex(record => record.id === +id)
   },
 
   withPermittedAttrs(attrs, init = {}) {
