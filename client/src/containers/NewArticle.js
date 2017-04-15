@@ -1,43 +1,55 @@
-import React, { Component } from 'react'
+import {
+  onlyUpdateForKeys,
+  setPropTypes,
+  withState,
+  withHandlers,
+  withProps,
+  compose
+} from 'recompose'
 import PropTypes from 'prop-types'
 import { numericString } from 'airbnb-prop-types'
-import { Auth } from '../lib'
-import { ArticleForm } from '../components'
+import { ArticleManager } from './'
+import { withAuth, withAuthCheck } from '../lib'
 
-class NewArticleContainer extends Component {
-  static propTypes = {
+const NewArticleContainer = compose(
+  setPropTypes({
     match: PropTypes.shape({
       params: PropTypes.shape({
         categoryId: numericString().isRequired
-      }).isRequired
-    }).isRequired
-  }
-
-  createArticle = article => {
-    fetch('/articles', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': Auth.getToken()
-      },
-      body: JSON.stringify({
-        ...article, categoryId: this.props.match.params.categoryId
+      }).isRequired,
+      history: PropTypes.shape({
+        push: PropTypes.func.isRequired
       })
-    })
-      .then(res => res.json())
-      .then(({ article: { id } }) =>
-        this.props.history.push(`/articles/${id}`)
-      )
-  }
-
-  render() {
-    return (
-      <ArticleForm
-        formType='Create'
-        onSubmit={this.createArticle} />
-    )
-  }
-}
+    }).isRequired
+  }),
+  withAuth,
+  withAuthCheck,
+  withState('article', 'setArticle', { title: '', content: '' }),
+  withProps({
+    formType: 'Create'
+  }),
+  withHandlers({
+    onSubmit: ({
+      history: { push },
+      match: { params: { categoryId } },
+      accessToken
+    }) => article => {
+      fetch('/articles', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': accessToken
+        },
+        body: JSON.stringify({
+          ...article, categoryId
+        })
+      })
+        .then(res => res.json())
+        .then(({ article: { id } }) => push(`/articles/${id}`))
+    }
+  }),
+  onlyUpdateForKeys(['article', 'accessToken'])
+)(ArticleManager)
 
 export default NewArticleContainer

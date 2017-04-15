@@ -1,17 +1,24 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Auth } from '../lib'
-import { AuthForm } from '../components'
+import { AuthManager } from './'
+import {
+  withState,
+  setPropTypes,
+  withHandlers,
+  compose
+} from 'recompose'
+import { withAuth } from '../lib'
 
-class SignupContainer extends Component {
-  static propTypes = {
+const SignupContainer = compose(
+  setPropTypes({
     history: PropTypes.shape({
       goBack: PropTypes.func.isRequired
     }).isRequired
-  }
-
-  handleFormSubmit = credential => {
-    fetch('/users', {
+  }),
+  withState('formName', 'setFormName', 'Signup'),
+  withAuth,
+  withHandlers({
+    onSubmit: ({ history: { goBack }, setToken }) => credential => {
+      fetch('/users', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -19,17 +26,10 @@ class SignupContainer extends Component {
       },
       body: JSON.stringify(credential)
     })
-      .then(({ headers }) => Auth.setToken(headers))
-      .then(() => this.props.history.goBack())
-  }
-
-  render() {
-    return (
-      <AuthForm
-        formName='Signup'
-        onSubmit={this.handleFormSubmit} />
-    )
-  }
-}
+      .then(({ headers }) => setToken(headers))
+      .then(() => goBack())
+    }
+  })
+)(AuthManager)
 
 export default SignupContainer

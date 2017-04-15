@@ -1,35 +1,34 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Auth } from '../lib'
-import { AuthForm } from '../components'
+import { AuthManager } from './'
+import {
+  setPropTypes,
+  withState,
+  withHandlers,
+  compose
+} from 'recompose'
+import { withAuth } from '../lib'
 
-class SigninContainer extends Component {
-  static propTypes = {
+const SigninContainer = compose(
+  setPropTypes({
     history: PropTypes.shape({
       goBack: PropTypes.func.isRequired
     }).isRequired
-  }
+  }),
+  withState('formName', 'setFormName', 'Signin'),
+  withHandlers({
+    onSubmit: ({ history: { goBack }, setToken }) => credential => {
+      fetch('/sessions', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credential)
+      })
+        .then(({ headers }) => setToken(headers))
+        .then(() => goBack())
+    }
+  })
+)(AuthManager)
 
-  handleFormSubmit = credential => {
-    fetch('/sessions', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(credential)
-    })
-      .then(({ headers }) => Auth.setToken(headers))
-      .then(() => this.props.history.goBack())
-  }
-
-  render() {
-    return (
-      <AuthForm
-        formName='Signin'
-        onSubmit={this.handleFormSubmit} />
-    )
-  }
-}
-
-export default SigninContainer
+export default withAuth(SigninContainer)

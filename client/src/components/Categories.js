@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import { pure } from 'recompose'
 import { Articles, NewArticle } from '../containers'
 
 const Categories = () => (
@@ -19,4 +20,4 @@ const Categories = () => (
   </Switch>
 )
 
-export default Categories
+export default pure(Categories)
