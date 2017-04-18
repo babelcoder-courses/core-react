@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import { pure } from 'recompose'
 import { Home, Categories, Articles, NotFound } from './'
 import { Sidebar } from '../containers'
 
@@ -17,4 +18,4 @@ const Content = () => (
   </div>
 )
 
-export default Content
+export default pure(Content)

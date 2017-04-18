@@ -1,59 +1,73 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { numericString } from 'airbnb-prop-types'
-import { Auth } from '../lib'
+import {
+  setPropTypes,
+  withHandlers,
+  withState,
+  withProps,
+  lifecycle,
+  onlyUpdateForKeys,
+  compose
+} from 'recompose'
+import { withAuth, withAuthCheck } from '../lib'
 import { ArticleForm } from '../components'
 
-class EditArticleContainer extends Component {
-  static propTypes = {
+const EditArticleContainer = ({
+  article,
+  editArticle
+}) => (
+  <ArticleForm
+    formType='Edit'
+    {...article}
+    onSubmit={editArticle} />
+)
+
+export default compose(
+  setPropTypes({
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: numericString().isRequired
       }).isRequired
-    }).isRequired
-  }
-
-  state = {
-    title: '',
-    content: ''
-  }
-
-  componentDidMount() {
-    this.loadArticle()
-  }
-
-  editArticle = article => {
-    fetch(`/articles/${this.props.match.params.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': Auth.getToken()
-      },
-      body: JSON.stringify({
-        ...article
-      })
+    }).isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
     })
-      .then(res => res.json())
-      .then(({ article: { id } }) =>
-        this.props.history.push(`/articles/${id}`)
-      )
-  }
-
-  loadArticle() {
-    fetch(`/articles/${this.props.match.params.id}`)
-      .then(res => res.json())
-      .then(({ article }) => this.setState({ ...article }))
-  }
-
-  render() {
-    return (
-      <ArticleForm
-        {...this.state}
-        formType='Edit'
-        onSubmit={this.editArticle} />
-    )
-  }
-}
-
-export default EditArticleContainer
+  }),
+  withAuth,
+  withAuthCheck,
+  withState('article', 'setArticle', { title: '', content: '' }),
+  withProps(props => ({ accessToken: props.auth.getToken() })),
+  withHandlers({
+    editArticle: ({
+      history: { push },
+      match: { params: { id } },
+      accessToken
+    }) => article => {
+      fetch(`/articles/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': accessToken
+        },
+        body: JSON.stringify({
+          ...article
+        })
+      })
+        .then(res => res.json())
+        .then(({ article: { id } }) => push(`/articles/${id}`))
+    },
+    loadArticle: ({ match: { params: { id } }, article, setArticle }) => _ => {
+      fetch(`/articles/${id}`)
+        .then(res => res.json())
+        .then(({ article }) => setArticle(article))
+    }
+  }),
+  lifecycle({
+    componentDidMount() {
+      this.props.loadArticle()
+    }
+  }),
+  onlyUpdateForKeys(['accessToken', 'article'])
+)(EditArticleContainer)

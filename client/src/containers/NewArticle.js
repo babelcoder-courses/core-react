@@ -1,43 +1,57 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { numericString } from 'airbnb-prop-types'
-import { Auth } from '../lib'
+import {
+  setPropTypes,
+  withHandlers,
+  withProps,
+  onlyUpdateForKeys,
+  compose
+} from 'recompose'
+import { withAuth, withAuthCheck } from '../lib'
 import { ArticleForm } from '../components'
 
-class NewArticleContainer extends Component {
-  static propTypes = {
+const NewArticleContainer = ({
+  createArticle
+}) => (
+  <ArticleForm
+    formType='Create'
+    onSubmit={createArticle} />
+)
+
+export default compose(
+  setPropTypes({
     match: PropTypes.shape({
       params: PropTypes.shape({
         categoryId: numericString().isRequired
       }).isRequired
     }).isRequired
-  }
-
-  createArticle = article => {
-    fetch('/articles', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': Auth.getToken()
-      },
-      body: JSON.stringify({
-        ...article, categoryId: this.props.match.params.categoryId
+  }),
+  withAuth,
+  withProps(props => ({ accessToken: props.auth.getToken() })),
+  withAuthCheck,
+  withHandlers({
+    createArticle: ({
+      match: { params: { categoryId } },
+      history: { push },
+      accessToken
+    }) => article => {
+      fetch('/articles', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': accessToken
+        },
+        body: JSON.stringify({
+          ...article, categoryId
+        })
       })
-    })
-      .then(res => res.json())
-      .then(({ article: { id } }) =>
-        this.props.history.push(`/articles/${id}`)
-      )
-  }
-
-  render() {
-    return (
-      <ArticleForm
-        formType='Create'
-        onSubmit={this.createArticle} />
-    )
-  }
-}
-
-export default NewArticleContainer
+        .then(res => res.json())
+        .then(({ article: { id } }) =>
+          push(`/articles/${id}`)
+        )
+    }
+  }),
+  onlyUpdateForKeys(['accessToken', 'article'])
+)(NewArticleContainer)

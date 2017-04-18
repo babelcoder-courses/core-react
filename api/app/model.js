@@ -5,7 +5,7 @@ import Pagination from './pagination'
 const Model = {
   ...Finder,
   ...Pagination,
-  
+
   findAll() {
     return this.collection()
   },
@@ -16,9 +16,9 @@ const Model = {
 
   create(attrs) {
     const collection = this.collection()
-    const record = 
+    const record =
       this.withPermittedAttrs(attrs, { id: collection.length + 1 })
-    
+
     this.setCollection([...collection, record])
     return record
   },
@@ -26,7 +26,7 @@ const Model = {
   update(id, attrs) {
     const collection = this.collection()
     const index = this.findIndex(id)
-    const updatedRecord = 
+    const updatedRecord =
       this.withPermittedAttrs(attrs, collection[index])
 
     this.setCollection([
@@ -54,7 +54,7 @@ const Model = {
 
   withPermittedAttrs(attrs, init = {}) {
     return this.permittedAttrs.reduce(
-      (record, attr) => 
+      (record, attr) =>
         attrs[attr] ? { ...record, [attr]: attrs[attr] } : record
     , init)
   },

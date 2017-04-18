@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import { pure } from 'recompose'
 import { Article, EditArticle } from '../containers'
-console.log(EditArticle)
+
 const Articles = () => (
   <Switch>
     <Route exact path='/articles/:id' component={Article} />
@@ -9,4 +10,4 @@ const Articles = () => (
   </Switch>
 )
 
-export default Articles
+export default pure(Articles)
