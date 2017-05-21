@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { setPropTypes, compose } from 'recompose'
+import { withState, compose } from 'recompose'
 import { Switch, Route } from 'react-router-dom'
 import { UserList } from 'Components'
 
@@ -11,10 +10,8 @@ const Users = ({ users }) => (
 )
 
 export default compose(
-  setPropTypes({
-    users: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired
-    })).isRequired
-  })
+  withState('users', 'setUsers', [
+    { id: 1, name: 'User#1' },
+    { id: 2, name: 'User#2' }
+  ])
 )(Users)
