@@ -1,0 +1,10 @@
+@import '~Theme/variables';
+
+.card-header {
+  text-align: center;
+  border-bottom: 1px solid $lightgray-dark-color;
+  padding: $gutter / 2;
+  background: $mint-dark-color;
+  color: $lightgray-light-color;
+  font-weight: bolder;
+}

@@ -1,0 +1,8 @@
+@import '~Theme/variables';
+
+.card {
+  display: flex;
+  flex-flow: column wrap;
+  border: 1px solid $lightgray-dark-color;
+  width: 100%;
+}
