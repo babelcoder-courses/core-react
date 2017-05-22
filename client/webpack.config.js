@@ -36,6 +36,7 @@ module.exports = {
   },
   resolve: {
     alias: {
+      Stores: path.resolve(context, 'stores'),
       Containers: path.resolve(context, 'containers'),
       Components: path.resolve(context, 'components'),
       Theme: path.resolve(context, 'theme')

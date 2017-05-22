@@ -1,17 +1,12 @@
 import React from 'react'
-import { withState, compose } from 'recompose'
 import { Switch, Route } from 'react-router-dom'
 import { UserList } from 'Components'
+import { UserStore } from 'Stores'
 
-const Users = ({ users }) => (
+const Users = () => (
   <Switch>
-    <Route path='/users' render={() => <UserList users={users} />} />
+    <Route path='/users' render={() => <UserList users={UserStore.getState()} />} />
   </Switch>
 )
 
-export default compose(
-  withState('users', 'setUsers', [
-    { id: 1, name: 'User#1' },
-    { id: 2, name: 'User#2' }
-  ])
-)(Users)
+export default Users
