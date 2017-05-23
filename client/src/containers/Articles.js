@@ -1,22 +1,23 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { compose, withHandlers } from 'recompose'
+import PropTypes from 'prop-types'
+import { setPropTypes, withState, lifecycle, compose, withHandlers } from 'recompose'
 import { Switch, Route } from 'react-router-dom'
 import { ArticleList, EditArticle } from 'Components'
-import { ArticleStore } from 'Stores'
+import { editArticle } from 'Actions'
 
-const Articles = ({ onEditArticle }) => (
+const Articles = ({ store, onEditArticle }) => (
   <Switch>
     <Route
       exact
       path='/articles'
-      render={() => <ArticleList articles={ArticleStore.getState()} />} />
+      render={() => <ArticleList articles={store.getState().articles} />} />
     <Route
       path='/articles/:id/edit'
       render={
         ({ match: { params } }) =>
           <EditArticle
-            {...ArticleStore.getState().find(article => article.id === +params.id)}
+            {...store.getState().articles.find(article => article.id === +params.id)}
             onSubmit={onEditArticle} />
       }
     />
@@ -26,10 +27,27 @@ const Articles = ({ onEditArticle }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onEditArticle: ({ history }) => (id, article) => {
-      ArticleStore.editArticle(id, article)
+    onEditArticle: ({ store, history }) => (id, article) => {
+      store.dispatch(editArticle(id, article))
 
       history.push('/articles')
     }
+  }),
+  withState('subscription', 'setSubscription', null),
+  lifecycle({
+    componentDidMount() {
+      const subscription = this.props.store.subscribe(
+        () => this.forceUpdate()
+      )
+
+      this.props.setSubscription(() => subscription)
+    },
+
+    componentWillUnmount() {
+      this.props.subscription()
+    }
+  }),
+  setPropTypes({
+    store: PropTypes.object.isRequired
   })
 )(Articles)
