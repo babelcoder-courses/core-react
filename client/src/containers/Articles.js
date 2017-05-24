@@ -1,11 +1,10 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { Switch, Route } from 'react-router-dom'
 import { ArticleList, EditArticle } from 'Components'
 import { editArticle } from 'Actions'
-import { connect } from 'Lib'
+import { connect } from 'react-redux'
 
 const Articles = ({ articles, onEditArticle }) => (
   <Switch>

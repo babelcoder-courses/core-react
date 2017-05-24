@@ -1,8 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 import { compose } from 'recompose'
-import { connect } from 'Lib'
+import { connect } from 'react-redux'
 import { UserList } from 'Components'
 
 const Users = ({ users }) => (
@@ -12,6 +12,7 @@ const Users = ({ users }) => (
 )
 
 export default compose(
+  withRouter,
   connect(
     ({ users }, props) => ({
       users
