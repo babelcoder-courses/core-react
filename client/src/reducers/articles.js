@@ -1,3 +1,5 @@
+import { EDIT_ARTICLE } from 'Actions'
+
 const initialState = [
   { id: 1, title: 'My Article#1', content: 'My Content#1', authorId: 1 },
   { id: 2, title: 'My Article#2', content: 'My Content#2', authorId: 2 },
@@ -9,7 +11,7 @@ const initialState = [
 
 export default (state = initialState, action) => {
   switch(action.type) {
-    case 'EDIT_ARTICLE':
+    case EDIT_ARTICLE:
       return state.map(
         item => item.id === action.id ?
           { id: action.id, ...action.article } : item

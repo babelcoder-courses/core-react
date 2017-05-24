@@ -1,31 +1,20 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { setPropTypes, withState, lifecycle, compose } from 'recompose'
+import { compose } from 'recompose'
+import { connect } from 'Lib'
 import { UserList } from 'Components'
 
-const Users = ({ store }) => (
+const Users = ({ users }) => (
   <Switch>
-    <Route path='/users' render={() => <UserList users={store.getState().users} />} />
+    <Route path='/users' render={() => <UserList users={users} />} />
   </Switch>
 )
 
 export default compose(
-  withState('subscription', 'setSubscription', null),
-  lifecycle({
-    componentDidMount() {
-      const subscription = this.props.store.subscribe(
-        () => this.forceUpdate()
-      )
-
-      this.props.setSubscription(() => subscription)
-    },
-
-    componentWillUnmount() {
-      this.props.subscription()
-    }
-  }),
-  setPropTypes({
-    store: PropTypes.object.isRequired
-  })
+  connect(
+    ({ users }, props) => ({
+      users
+    })
+  )
 )(Users)

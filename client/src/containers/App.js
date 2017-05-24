@@ -1,15 +1,17 @@
 import React from 'react'
 import { Header } from 'Components'
-import { Articles, Users } from 'Containers'
+import { Articles, Users, Provider } from 'Containers'
 import { createStore } from 'Lib'
 import rootReducer from '../reducers'
 
 const store = createStore(rootReducer)
 
 export default () => (
-  <div>
-    <Header />
-    <Articles store={store} />
-    <Users store={store} />
-  </div>
+  <Provider store={store}>
+    <div>
+      <Header />
+      <Articles />
+      <Users />
+    </div>
+  </Provider>
 )
