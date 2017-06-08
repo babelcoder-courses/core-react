@@ -38,9 +38,9 @@ module.exports = {
     alias: {
       Lib: path.resolve(context, 'lib'),
       Actions: path.resolve(context, 'actions'),
+      Middlewares: path.resolve(context, 'middlewares'),
       Containers: path.resolve(context, 'containers'),
-      Components: path.resolve(context, 'components'),
-      Theme: path.resolve(context, 'theme')
+      Components: path.resolve(context, 'components')
     },
     extensions: [".js", ".json", ".scss"]
   },

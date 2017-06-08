@@ -1,9 +1,0 @@
-@import '~Theme/variables';
-
-.users {
-  @media only screen and (min-width: $screen-sm) {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-  }
-}

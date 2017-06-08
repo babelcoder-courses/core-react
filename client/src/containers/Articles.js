@@ -1,41 +1,30 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { compose } from 'recompose'
-import { Switch, Route } from 'react-router-dom'
-import { ArticleList, EditArticle } from 'Components'
-import { editArticle } from 'Actions'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-const Articles = ({ articles, onEditArticle }) => (
-  <Switch>
-    <Route
-      exact
-      path='/articles'
-      render={() => <ArticleList articles={articles} />} />
-    <Route
-      path='/articles/:id/edit'
-      render={
-        ({ match: { params } }) =>
-          <EditArticle
-            {...articles.find(article => article.id === +params.id)}
-            onSubmit={onEditArticle} />
-      }
-    />
-  </Switch>
-)
+class Articles extends PureComponent {
+  render() {
+    return (
+      <div>
+        <ul>
+          {
+            this.props.articles.map(
+              article =>
+                <li key={article.id}>
+                  <Link to={`/articles/${article.id}`}>{article.value}</Link>
+                </li>
+              )
+          }
+        </ul>
+        <Link to='/articles/new'>New Article</Link>
+      </div>
+    )
+  }
+}
 
-export default compose(
-  withRouter,
-  connect(
-    ({ articles }) => ({
-      articles
-    }),
-    (dispatch, { history }) => ({
-      onEditArticle(id, article) {
-        dispatch(editArticle(id, article))
-
-        history.push('/articles')
-      }
-    })
-  )
+export default connect(
+  ({ articles }) => ({
+    articles
+  })
 )(Articles)
+
