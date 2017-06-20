@@ -1,7 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import { persistState } from 'redux-devtools'
+import thunk from 'redux-thunk'
 import logger from 'redux-logger'
-import { storage } from 'Middlewares'
+import { apiMiddleware } from 'redux-api-middleware'
+import { setToken } from '../middlewares'
 import rootReducer from '../reducers'
 import DevTools from 'Containers/DevTools'
 
@@ -12,8 +14,10 @@ function getDebugSessionKey() {
 
 export default function(initialState) {
   const middlewares = [
-    logger,
-    storage
+    setToken,
+    apiMiddleware,
+    thunk,
+    logger
   ]
 
   const store = createStore(

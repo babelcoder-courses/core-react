@@ -1,0 +1,19 @@
+@import '~Theme/colors';
+@import '~Theme/variables';
+
+.comment {
+  display: flex;
+  flex-flow: column wrap;
+  margin: $gutter / 2 0;
+  border: 1px solid $grape-fruit-light-color;
+}
+
+.user {
+  background: $grape-fruit-light-color;
+  color: #fff;
+  padding: $gutter / 2;
+}
+
+.message {
+  padding: $gutter / 2;
+}

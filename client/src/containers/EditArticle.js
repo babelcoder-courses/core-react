@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withRouter } from 'react-router'
 import { editArticle } from 'Actions'
-import { Form } from 'Components'
+import { ArticleForm } from 'Components'
 
 class EditArticle extends PureComponent {
   render() {
     const { article, editArticle } = this.props
 
     return (
-      <Form value={article.value} onSubmit={editArticle} />
+      <ArticleForm value={article.value} onSubmit={editArticle} />
     )
   }
 }

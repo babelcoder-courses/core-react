@@ -40,7 +40,8 @@ module.exports = {
       Actions: path.resolve(context, 'actions'),
       Middlewares: path.resolve(context, 'middlewares'),
       Containers: path.resolve(context, 'containers'),
-      Components: path.resolve(context, 'components')
+      Components: path.resolve(context, 'components'),
+      Theme: path.resolve(context, 'theme')
     },
     extensions: [".js", ".json", ".scss"]
   },

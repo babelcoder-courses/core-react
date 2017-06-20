@@ -1,21 +1,35 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { Route, Switch } from 'react-router'
-import { CreateArticle, EditArticle, ShowArticle, Articles } from 'Containers'
-import { loadState, configureStore } from 'Lib'
-import DevTools from 'Containers/DevTools'
+import {
+  Header,
+  CreateArticle,
+  EditArticle,
+  ShowArticle,
+  Articles,
+  Signin,
+  Signup
+} from 'Containers'
+import { configureStore } from 'Lib'
+import DevTools from './DevTools'
+import styles from './App.scss'
 
-const store = configureStore(loadState())
+const store = configureStore()
 
 export default () => (
   <Provider store={store}>
     <div>
-      <Switch>
-        <Route path='/articles/new' component={CreateArticle} />
-        <Route path='/articles/:id/edit' component={EditArticle} />
-        <Route path='/articles/:id' component={ShowArticle} />
-        <Route path='/articles' component={Articles} />
-      </Switch>
+      <Header />
+      <div className={styles.content}>
+        <Switch>
+          <Route path='/login' component={Signin} />
+          <Route path='/signup' component={Signup} />
+          <Route path='/articles/new' component={CreateArticle} />
+          <Route path='/articles/:id/edit' component={EditArticle} />
+          <Route path='/articles/:id' component={ShowArticle} />
+          <Route path='/articles' component={Articles} />
+        </Switch>
+      </div>
       <DevTools />
     </div>
   </Provider>

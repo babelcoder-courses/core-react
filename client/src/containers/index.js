@@ -1,5 +1,8 @@
 export { default as DevTools } from './DevTools'
+export { default as Header } from './Header'
 export { default as App } from './App'
+export { default as Signin } from './Signin'
+export { default as Signup } from './Signup'
 export { default as CreateArticle } from './CreateArticle'
 export { default as EditArticle } from './EditArticle'
 export { default as ShowArticle } from './ShowArticle'

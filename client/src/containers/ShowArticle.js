@@ -2,32 +2,49 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withRouter } from 'react-router'
-import { Link } from 'react-router-dom'
-import { deleteArticle } from 'Actions'
+import { loadArticle, deleteArticle } from 'Actions'
+import { Button, Comments, Loading } from 'Components'
+import styles from './ShowArticle.scss'
 
 class ShowArticle extends PureComponent {
-  render() {
-    const { article, match: { params }, deleteArticle } = this.props
+  componentDidMount() {
+    this.props.loadArticle()
+  }
 
-    return (
-      <div>
-        <div>Value: {article.value}</div>
-        <Link to={`/articles/${params.id}/edit`}>Edit</Link>
-        <button onClick={deleteArticle}>Delete</button>
-      </div>
-    )
+  render() {
+    const { article, deleteArticle } = this.props
+
+    if(article) {
+      return (
+        <div>
+          <h2>{article.title}</h2>
+          <p>{article.content}</p>
+          <div className={styles.buttons}>
+            <Button to={`/articles/${article.id}/edit`}>Edit</Button>
+            <Button onClick={deleteArticle}>Delete</Button>
+          </div>
+          <hr />
+          <Comments comments={article.comments} />
+        </div>
+      )
+    } else {
+      return <Loading />
+    }
   }
 }
 
 export default compose(
   withRouter,
   connect(
-    ({ articles }, { match }) => ({
-      article: articles.find(article => article.id === +match.params.id)
+    ({ articles: { items } }, { match }) => ({
+      article: items.find(article => article.id === +match.params.id)
     }),
-    (dispatch, { match, history }) => ({
+    (dispatch, { match: { params }, history }) => ({
+      loadArticle() {
+        dispatch(loadArticle(params.id))
+      },
       deleteArticle() {
-        dispatch(deleteArticle(match.params.id))
+        dispatch(deleteArticle(params.id))
         history.push('/articles')
       }
     })

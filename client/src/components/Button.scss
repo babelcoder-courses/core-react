@@ -1,0 +1,15 @@
+@import '~Theme/colors';
+@import '~Theme/variables';
+
+.button {
+  text-decoration: none;
+  border: 1px solid $grape-fruit-light-color;
+  padding: $gutter / 4 $gutter / 2;
+  background: #fff;
+  color: $grape-fruit-light-color;
+  margin: 0 $gutter / 4;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1.25;
+  font-weight: 400;
+}

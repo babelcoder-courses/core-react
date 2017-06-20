@@ -1,9 +1,39 @@
-import { CREATE_ARTICLE, EDIT_ARTICLE, DELETE_ARTICLE } from 'Actions'
+import {
+  CREATE_ARTICLE_REQUEST,
+  CREATE_ARTICLE_SUCCESS,
+  EDIT_ARTICLE,
+  DELETE_ARTICLE,
+  LOAD_ARTICLES_REQUEST,
+  LOAD_ARTICLES_SUCCESS,
+  LOAD_ARTICLE_REQUEST,
+  LOAD_ARTICLE_SUCCESS
+} from 'Actions'
 
-export default (state = [], action) => {
+const initialState = {
+  isLoading: false,
+  items: []
+}
+
+export default (state = initialState, action) => {
   switch(action.type) {
-    case CREATE_ARTICLE:
-      return [...state, action.article]
+    case LOAD_ARTICLES_REQUEST:
+    case LOAD_ARTICLE_REQUEST:
+    case CREATE_ARTICLE_REQUEST:
+      return {
+        isLoading: true,
+        items: []
+      }
+    case LOAD_ARTICLES_SUCCESS:
+      return {
+        isLoading: false,
+        items: action.payload.articles
+      }
+    case LOAD_ARTICLE_SUCCESS:
+    case CREATE_ARTICLE_SUCCESS:
+      return {
+        isLoading: false,
+        items: [action.payload.article]
+      }
     case EDIT_ARTICLE: {
       const index = state.findIndex(article => article.id === +action.id)
       const article = state[index]

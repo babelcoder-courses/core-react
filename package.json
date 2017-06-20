@@ -5,6 +5,9 @@
   "author": "n_thongjor <n.thongjor@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "npm run dev --prefix client"
+    "dev": "concurrently -k \"npm run --prefix api dev\" \"npm run --prefix client dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^3.4.0"
   }
 }

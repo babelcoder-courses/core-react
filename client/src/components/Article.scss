@@ -1,0 +1,22 @@
+@import '~Theme/colors';
+@import '~Theme/variables';
+
+.article {
+  border: 1px solid $grape-fruit-light-color;
+  margin: $gutter / 2 0;
+}
+
+.header {
+  background: $grape-fruit-dark-color;
+  padding: $gutter / 2;
+}
+
+.title {
+  color: #fff;
+  text-decoration: none;
+}
+
+.excerpt {
+  padding: $gutter / 2;
+  line-height: 1.5;
+}

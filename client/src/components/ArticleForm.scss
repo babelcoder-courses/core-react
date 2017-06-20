@@ -1,0 +1,28 @@
+@import '~Theme/variables';
+@import '~Theme/colors';
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  color: $grape-fruit-light-color;
+  font-weight: 900;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  margin: $gutter / 2 0;
+
+  & > label {
+    flex: 1;
+    margin-right: $gutter / 2;
+  }
+
+  & > input, textarea {
+    flex: 3;
+  }
+}
+
+.button {
+  text-align: center;
+}
