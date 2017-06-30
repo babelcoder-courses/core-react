@@ -30,8 +30,9 @@ export default {
     }
   ],
   comments: [
-    { id: 1, userId: 1, articleId: 1, message: 'Lorem Ipsum' },
-    { id: 2, userId: 2, articleId: 1, message: 'Lorem Ipsum' },
-    { id: 3, userId: 1, articleId: 2, message: 'Lorem Ipsum' }
+    { id: 1, userId: 2, articleId: 1, message: 'Lorem Ipsum' },
+    { id: 2, userId: 2, articleId: 2, message: 'Async Fragments' },
+    { id: 3, userId: 2, articleId: 1, message: 'Background' },
+    { id: 4, userId: 2, articleId: 2, message: 'HTML rendering ' }
   ]
 }

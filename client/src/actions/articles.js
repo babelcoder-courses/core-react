@@ -12,13 +12,26 @@ import {
   LOAD_ARTICLE_FAILURE
 } from 'Actions'
 import { CALL_API } from 'redux-api-middleware'
+import { normalize } from 'normalizr'
+import { articleSchema } from '../store'
 
 export function loadArticles() {
   return {
     [CALL_API]: {
       endpoint: '/api/articles',
       method: 'GET',
-      types: [LOAD_ARTICLES_REQUEST, LOAD_ARTICLES_SUCCESS, LOAD_ARTICLES_FAILURE]
+      types: [
+        LOAD_ARTICLES_REQUEST,
+        {
+          type: LOAD_ARTICLES_SUCCESS,
+          payload(action, state, res) {
+            return res
+              .json()
+              .then(json => normalize(json, { articles: [articleSchema] }))
+          }
+        },
+        LOAD_ARTICLES_FAILURE
+      ]
     }
   }
 }
@@ -28,7 +41,18 @@ export function loadArticle(id) {
     [CALL_API]: {
       endpoint: `/api/articles/${id}`,
       method: 'GET',
-      types: [LOAD_ARTICLE_REQUEST, LOAD_ARTICLE_SUCCESS, LOAD_ARTICLE_FAILURE]
+      types: [
+        LOAD_ARTICLE_REQUEST,
+        {
+          type: LOAD_ARTICLE_SUCCESS,
+          payload(action, state, res) {
+            return res
+              .json()
+              .then(json => normalize(json, { article: articleSchema }))
+          }
+        },
+        LOAD_ARTICLE_FAILURE
+      ]
     }
   }
 }
@@ -43,7 +67,18 @@ export function createArticle(article) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(article),
-      types: [CREATE_ARTICLE_REQUEST, CREATE_ARTICLE_SUCCESS, CREATE_ARTICLE_FAILURE]
+      types: [
+        CREATE_ARTICLE_REQUEST,
+        {
+          type: CREATE_ARTICLE_SUCCESS,
+          payload(action, state, res) {
+            return res
+              .json()
+              .then(json => normalize(json, { article: articleSchema }))
+          }
+        },
+        CREATE_ARTICLE_FAILURE
+      ]
     }
   }
 }

@@ -37,6 +37,7 @@ module.exports = {
   resolve: {
     alias: {
       Lib: path.resolve(context, 'lib'),
+      Selectors: path.resolve(context, 'selectors'),
       Actions: path.resolve(context, 'actions'),
       Middlewares: path.resolve(context, 'middlewares'),
       Containers: path.resolve(context, 'containers'),

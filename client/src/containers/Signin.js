@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { login } from 'Actions'
 import { AuthForm } from 'Components'
+import { getIsLoggedIn } from 'Selectors'
 
 class Signin extends PureComponent {
   render() {
@@ -19,6 +20,6 @@ class Signin extends PureComponent {
 }
 
 export default connect(
-  ({ auth }) => ({ isLoggedIn: !!auth.token }),
+  state => ({ isLoggedIn: getIsLoggedIn(state) }),
   { login }
 )(Signin)

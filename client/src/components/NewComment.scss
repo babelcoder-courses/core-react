@@ -1,0 +1,12 @@
+@import '~Theme/colors';
+@import '~Theme/variables';
+
+.container {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.button {
+  margin-left: auto;
+  margin-top: $gutter / 2;
+}

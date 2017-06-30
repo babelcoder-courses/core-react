@@ -2,6 +2,11 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { loadArticles } from 'Actions'
 import { Article, Button, Loading } from 'Components'
+import {
+  getArticles,
+  getIsArticleLoading,
+  getIsLoggedIn
+} from 'Selectors'
 import styles from './Articles.scss'
 
 class Articles extends PureComponent {
@@ -33,10 +38,10 @@ class Articles extends PureComponent {
 }
 
 export default connect(
-  ({ articles, auth }) => ({
-    articles: articles.items,
-    isLoading: articles.isLoading,
-    isLoggedIn: !!auth.token
+  state => ({
+    articles: getArticles(state),
+    isLoading: getIsArticleLoading(state),
+    isLoggedIn: getIsLoggedIn(state)
   }),
   { loadArticles }
 )(Articles)

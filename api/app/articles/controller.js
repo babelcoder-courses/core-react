@@ -11,7 +11,7 @@ const ArticlesController = {
   get(req, res) {
     const id = req.params.id
     const comments = Comments.findAll().filter(
-      comment => comment.articleId === +req.params.id
+      comment => +comment.articleId === +req.params.id
     ).map(comment => ({ ...comment, user: Users.find(comment.userId) }))
 
     res.json({

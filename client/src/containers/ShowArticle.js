@@ -2,8 +2,13 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withRouter } from 'react-router'
-import { loadArticle, deleteArticle } from 'Actions'
+import { loadArticle, deleteArticle, createComment } from 'Actions'
 import { Button, Comments, Loading } from 'Components'
+import {
+  getComments,
+  getUsers,
+  getArticle
+} from 'Selectors'
 import styles from './ShowArticle.scss'
 
 class ShowArticle extends PureComponent {
@@ -12,7 +17,7 @@ class ShowArticle extends PureComponent {
   }
 
   render() {
-    const { article, deleteArticle } = this.props
+    const { article, comments, users, deleteArticle, createComment } = this.props
 
     if(article) {
       return (
@@ -24,7 +29,11 @@ class ShowArticle extends PureComponent {
             <Button onClick={deleteArticle}>Delete</Button>
           </div>
           <hr />
-          <Comments comments={article.comments} />
+          <Comments
+            createComment={createComment}
+            commentIds={article.comments}
+            comments={comments}
+            users={users} />
         </div>
       )
     } else {
@@ -36,8 +45,10 @@ class ShowArticle extends PureComponent {
 export default compose(
   withRouter,
   connect(
-    ({ articles: { items } }, { match }) => ({
-      article: items.find(article => article.id === +match.params.id)
+    (state, props) => ({
+      article: getArticle(state, props),
+      comments: getComments(state),
+      users: getUsers(state)
     }),
     (dispatch, { match: { params }, history }) => ({
       loadArticle() {
@@ -46,6 +57,9 @@ export default compose(
       deleteArticle() {
         dispatch(deleteArticle(params.id))
         history.push('/articles')
+      },
+      createComment(message) {
+        dispatch(createComment({ articleId: params.id, message }))
       }
     })
   )
