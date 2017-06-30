@@ -9,31 +9,18 @@ import {
   LOAD_ARTICLE_SUCCESS
 } from 'Actions'
 
-const initialState = {
-  isLoading: false,
-  items: {}
-}
+const initialState = []
 
 export default (state = initialState, action) => {
   switch(action.type) {
     case LOAD_ARTICLES_REQUEST:
     case LOAD_ARTICLE_REQUEST:
     case CREATE_ARTICLE_REQUEST:
-      return {
-        isLoading: true,
-        items: {}
-      }
+      return initialState
     case LOAD_ARTICLES_SUCCESS:
-      return {
-        isLoading: false,
-        items: action.payload.entities.articles
-      }
     case LOAD_ARTICLE_SUCCESS:
     case CREATE_ARTICLE_SUCCESS:
-      return {
-        isLoading: false,
-        items: action.payload.entities.articles
-      }
+      return action.payload.entities.articles
     case EDIT_ARTICLE: {
       const index = state.findIndex(article => article.id === +action.id)
       const article = state[index]

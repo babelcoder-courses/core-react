@@ -4,7 +4,7 @@ import { loadArticles } from 'Actions'
 import { Article, Button, Loading } from 'Components'
 import {
   getArticles,
-  getIsArticleLoading,
+  getIsLoading,
   getIsLoggedIn
 } from 'Selectors'
 import styles from './Articles.scss'
@@ -40,7 +40,7 @@ class Articles extends PureComponent {
 export default connect(
   state => ({
     articles: getArticles(state),
-    isLoading: getIsArticleLoading(state),
+    isLoading: getIsLoading(state),
     isLoggedIn: getIsLoggedIn(state)
   }),
   { loadArticles }
