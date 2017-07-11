@@ -2,7 +2,9 @@ import {
   CREATE_ARTICLE_REQUEST,
   CREATE_ARTICLE_SUCCESS,
   CREATE_ARTICLE_FAILURE,
-  EDIT_ARTICLE,
+  EDIT_ARTICLE_REQUEST,
+  EDIT_ARTICLE_SUCCESS,
+  EDIT_ARTICLE_FAILURE,
   DELETE_ARTICLE,
   LOAD_ARTICLES_REQUEST,
   LOAD_ARTICLES_SUCCESS,
@@ -83,12 +85,28 @@ export function createArticle(article) {
   }
 }
 
-export function editArticle(id, value) {
+export function editArticle(id, article) {
   return {
-    type: EDIT_ARTICLE,
-    id,
-    article: {
-      value
+    [CALL_API]: {
+      endpoint: `/api/articles/${id}`,
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(article),
+      types: [
+        EDIT_ARTICLE_REQUEST,
+        {
+          type: EDIT_ARTICLE_SUCCESS,
+          payload(action, state, res) {
+            return res
+              .json()
+              .then(json => normalize(json, { article: articleSchema }))
+          }
+        },
+        EDIT_ARTICLE_FAILURE
+      ]
     }
   }
 }

@@ -2,15 +2,23 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withRouter } from 'react-router'
-import { editArticle } from 'Actions'
+import { editArticle, loadArticle } from 'Actions'
+import { getArticle } from 'Selectors'
 import { ArticleForm } from 'Components'
 
 class EditArticle extends PureComponent {
+  componentDidMount() {
+    this.props.loadArticle()
+  }
+
   render() {
-    const { article, editArticle } = this.props
+    const { editArticle, article } = this.props
 
     return (
-      <ArticleForm value={article.value} onSubmit={editArticle} />
+      <ArticleForm
+        initialValues={article}
+        header='Edit Article'
+        onSubmit={editArticle} />
     )
   }
 }
@@ -18,14 +26,18 @@ class EditArticle extends PureComponent {
 export default compose(
   withRouter,
   connect(
-    ({ articles }, { match }) => ({
-      article: articles.find(article => article.id === +match.params.id)
+    (state, props) => ({
+      article: getArticle(state, props)
     }),
-    (dispatch, { match, history }) => ({
-      editArticle(value) {
-        dispatch(editArticle(match.params.id, value))
+    (dispatch, { match: { params }, history }) => ({
+      editArticle(article) {
+        dispatch(editArticle(params.id, article))
         history.push('/articles')
+      },
+      loadArticle() {
+        dispatch(loadArticle(params.id))
       }
     })
   )
 )(EditArticle)
+

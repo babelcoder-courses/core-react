@@ -24,7 +24,7 @@ const ArticlesController = {
 
   create(req, res) {
     if(ArticlesPolicy.for('create', req.user)) {
-      const article = Articles.create(req.body)
+      const article = Articles.create({ ...req.body, authorId: req.user.id })
 
       res.status(201).json({ article })
     } else {
