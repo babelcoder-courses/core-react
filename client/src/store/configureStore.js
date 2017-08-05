@@ -5,7 +5,7 @@ import logger from 'redux-logger'
 import { apiMiddleware } from 'redux-api-middleware'
 import { setToken } from '../middlewares'
 import rootReducer from '../reducers'
-import DevTools from 'Containers/DevTools'
+import { DevTools } from 'Features/ui'
 
 function getDebugSessionKey() {
   const matches = window.location.href.match(/[?&]debug_session=([^&#]+)\b/)
