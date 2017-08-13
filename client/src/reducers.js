@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
-import { reducer as articlesReducer } from 'Features/articles'
-import { reducer as authReducer } from 'Features/auth'
-import { reducer as commentsReducer } from 'Features/comments'
-import { reducer as usersReducer } from 'Features/users'
-import { reducer as uiReducer } from 'Features/ui'
+import articlesReducer from 'Features/articles/reducer'
+import authReducer from 'Features/auth/reducer'
+import commentsReducer from 'Features/comments/reducer'
+import usersReducer from 'Features/users/reducer'
+import uiReducer from 'Features/ui/reducer'
 
 export default combineReducers({
   form: formReducer,

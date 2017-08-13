@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Button } from 'Features/ui'
+import Button from 'Features/ui/components/Button'
 import styles from './NewComment.scss'
 
 class NewComment extends PureComponent {
