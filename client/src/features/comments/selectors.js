@@ -1,11 +1,12 @@
 import { createSelector } from 'reselect'
-import { getUsersByIds } from 'Features/users'
+import { getUsersByIds } from 'Features/users/selectors'
 
 const commentsByIds = ({ comments }, { commentIds }) =>
-  Object
-    .entries(comments)
-    .filter(([k, v]) => commentIds.includes(+k))
-    .reduce((result, [k, v]) => ({ ...result, [k]: v }), {})
+  commentIds ?
+    Object
+      .entries(comments)
+      .filter(([k, v]) => commentIds.includes(+k))
+      .reduce((result, [k, v]) => ({ ...result, [k]: v }), {}) : {}
 
 const usersByCommentIds = (state, props) =>
   getUsersByIds(

@@ -1,35 +1,45 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 import { Route, Switch } from 'react-router'
+import Loadable from './Loadable'
 import Header from './Header'
-import {
-  CreateArticle,
-  EditArticle,
-  ShowArticle,
-  Articles
-} from 'Features/articles'
-import { Signin, Signup } from 'Features/auth'
-import { configureStore } from '../../../store'
-import DevTools from './DevTools'
 import styles from './App.scss'
 
-const store = configureStore()
+const AsyncSignin = Loadable({
+  loader: () => import(/* webpackChunkName: "Signin" */ 'Features/auth/components/Signin')
+})
+
+const AsyncSignup = Loadable({
+  loader: () => import(/* webpackChunkName: "Signup" */ 'Features/auth/components/Signup')
+})
+
+const AsyncCreateArticle = Loadable({
+  loader: () => import(/* webpackChunkName: "CreateArticle" */ 'Features/articles/components/CreateArticle')
+})
+
+const AsyncEditArticle = Loadable({
+  loader: () => import(/* webpackChunkName: "EditArticle" */ 'Features/articles/components/EditArticle')
+})
+
+const AsyncShowArticle = Loadable({
+  loader: () => import(/* webpackChunkName: "ShowArticle" */ 'Features/articles/components/ShowArticle')
+})
+
+const AsyncArticles = Loadable({
+  loader: () => import(/* webpackChunkName: "Articles" */ 'Features/articles/components/Articles')
+})
 
 export default () => (
-  <Provider store={store}>
-    <div>
-      <Header />
-      <div className={styles.content}>
-        <Switch>
-          <Route path='/login' component={Signin} />
-          <Route path='/signup' component={Signup} />
-          <Route path='/articles/new' component={CreateArticle} />
-          <Route path='/articles/:id/edit' component={EditArticle} />
-          <Route path='/articles/:id' component={ShowArticle} />
-          <Route path='/articles' component={Articles} />
-        </Switch>
-      </div>
-      <DevTools />
+  <div>
+    <Header />
+    <div className={styles.content}>
+      <Switch>
+        <Route path='/login' component={AsyncSignin} />
+        <Route path='/signup' component={AsyncSignup} />
+        <Route path='/articles/new' component={AsyncCreateArticle} />
+        <Route path='/articles/:id/edit' component={AsyncEditArticle} />
+        <Route path='/articles/:id' component={AsyncShowArticle} />
+        <Route path='/articles' component={AsyncArticles} />
+      </Switch>
     </div>
-  </Provider>
+  </div>
 )

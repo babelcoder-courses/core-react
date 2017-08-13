@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { logout, getIsLoggedIn } from 'Features/auth'
+import { logout } from 'Features/auth/actions'
+import { getIsLoggedIn } from 'Features/auth/selectors'
 import styles from './Header.scss'
 
 const Header = ({ isLoggedIn, logout }) => (

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'Features/ui'
+import Button from 'Features/ui/components/Button'
 import styles from './AuthForm.scss'
 
 class AuthForm extends PureComponent {

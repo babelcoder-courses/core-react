@@ -1,10 +1,5 @@
-import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-import App from './App'
-
-export default () => (
-  <Router>
-    <App />
-  </Router>
-)
-
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./Root.prod')
+} else {
+  module.exports = require('./Root.dev')
+}
