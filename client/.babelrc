@@ -1,16 +1,56 @@
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "browsers": ["last 2 versions"]
-      },
-      "modules": false
-    }],
-    "react"
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions"]
+        },
+        "module": false
+      }
+    ]
   ],
   "plugins": [
+    "syntax-dynamic-import",
     "transform-object-rest-spread",
     "transform-class-properties",
-    "syntax-dynamic-import"
-  ]
+    "react-loadable/babel",
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "Lib": "./src/shared/lib",
+          "Features": "./src/shared/features",
+          "Theme": "./src/shared/theme"
+        },
+        "cwd": "babelrc"
+      }
+    ]
+  ],
+  "env": {
+    "ssr": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "node": "9.4"
+            }
+          }
+        ]
+      ],
+      "plugins": [
+        "dynamic-import-node",
+        [
+          "css-modules-transform",
+          {
+            "preprocessCss": "./src/server/lib/processSass.js",
+            "extensions": [".css", ".scss"]
+          }
+        ]
+      ]
+    }
+  }
 }
