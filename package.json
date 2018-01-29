@@ -5,7 +5,11 @@
   "author": "n_thongjor <n.thongjor@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently -k \"npm run --prefix api dev\" \"npm run --prefix client dev\""
+    "start":
+      "concurrently -k \"npm run --prefix api start\" \"npm run --prefix client start\"",
+    "dev":
+      "concurrently -k \"npm run --prefix api dev\" \"npm run --prefix client dev:ui\"",
+    "build": "npm run --prefix api build && npm run --prefix client build"
   },
   "devDependencies": {
     "concurrently": "^3.4.0"

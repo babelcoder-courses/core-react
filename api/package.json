@@ -1,5 +1,5 @@
 {
-  "name": "rest-api",
+  "name": "core-react-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,10 +15,14 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.2.2",
     "dotenv": "^4.0.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "rimraf": "^2.6.2"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node ./index.js"
+    "start": "node ./build/index.js",
+    "dev": "nodemon --exec babel-node ./src/index.js",
+    "build": "yarn run clean && babel src -d build",
+    "clean": "rimraf build/*"
   },
   "keywords": [],
   "author": "",

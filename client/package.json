@@ -1,14 +1,28 @@
 {
-  "name": "core-react",
+  "name": "core-react-ui",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "better-npm-run start:prod",
     "dev:ui": "better-npm-run dev:ui",
     "dev:ssr": "better-npm-run dev:ssr",
-    "build:ui": "better-npm-run build:ui"
+    "build": "better-npm-run build",
+    "build:ui": "better-npm-run build:ui",
+    "build:ssr": "better-npm-run build:ssr",
+    "clean": "better-npm-run clean",
+    "clean:ui": "better-npm-run clean:ui",
+    "clean:ssr": "better-npm-run clean:ssr"
   },
   "betterScripts": {
+    "start:prod": {
+      "command": "node ./build/server/index.js",
+      "env": {
+        "NODE_ENV": "production",
+        "API_URL": "http://127.0.0.1:3000",
+        "HOST_URL": "http://127.0.0.1:8080"
+      }
+    },
     "dev:ui": {
       "command":
         "webpack-dev-server --env=dev --config=./src/ui/webpack.config.js",
@@ -24,16 +38,27 @@
         "HOST_URL": "http://127.0.0.1:8080"
       }
     },
+    "build": "yarn run build:ui && yarn run build:ssr",
     "build:ui": {
       "command":
-        "webpack --env=prod --config=./src/ui/webpack.config.js -p --display-modules --display-chunks",
+        "yarn run clean:ui && webpack --env=prod --config=./src/ui/webpack.config.js --display-modules --display-chunks",
       "env": {
         "HOST_URL": "http://127.0.0.1:8080"
       }
-    }
+    },
+    "build:ssr": {
+      "command": "yarn run clean:ssr && babel src -d build",
+      "env": {
+        "NODE_ENV": "ssr"
+      }
+    },
+    "clean": "yarn run clean:ui && yarn run clean:ssr",
+    "clean:ui": "rimraf dist/*",
+    "clean:ssr": "rimraf build/*"
   },
   "devDependencies": {
     "airbnb-prop-types": "^2.5.4",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.24.1",
     "babel-eslint": "7.1.1",
     "babel-loader": "^7.0.0",
@@ -69,6 +94,7 @@
     "redux-devtools-log-monitor": "^1.3.0",
     "redux-logger": "^3.0.6",
     "redux-slider-monitor": "^2.0.0-0",
+    "rimraf": "^2.6.2",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.17.0",
     "uglify-js": "git://github.com/mishoo/UglifyJS2#harmony-v2.8.22",
