@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { compose, lifecycle } from 'recompose'
+import { compose } from 'recompose'
 
-import { logout, loadAuth } from 'Features/auth/actions'
+import { logout } from 'Features/auth/actions'
 import { getIsLoggedIn } from 'Features/auth/selectors'
 import styles from './Header.scss'
 
@@ -36,11 +36,6 @@ export default compose(
     state => ({
       isLoggedIn: getIsLoggedIn(state)
     }),
-    { logout, loadAuth }
-  ),
-  lifecycle({
-    componentDidMount() {
-      this.props.loadAuth()
-    }
-  })
+    { logout }
+  )
 )(Header)

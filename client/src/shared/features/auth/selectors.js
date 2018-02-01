@@ -1,3 +1,3 @@
 export function getIsLoggedIn(state) {
-  return !!state.auth.token
+  return Object.keys(state.auth).length > 0
 }

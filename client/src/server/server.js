@@ -5,6 +5,7 @@ import { StaticRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import express from 'express'
 import httpProxy from 'http-proxy'
+import cookieParser from 'cookie-parser'
 import Loadable from 'react-loadable'
 import { getBundles } from 'react-loadable/webpack'
 import { matchRoutes, renderRoutes } from 'react-router-config'
@@ -24,12 +25,16 @@ const proxy = httpProxy.createProxyServer({
 
 app.use('/dist', express.static(path.join(__dirname, '../..', 'dist')))
 
+app.use(cookieParser())
+
 app.use('/api', (req, res) => {
   proxy.web(req, res, { target: `${targetUrl}/api` })
 })
 
 app.get('*', (req, res) => {
-  const store = configureStore()
+  const store = configureStore({
+    auth: { accessToken: req.cookies.accessToken }
+  })
   const branch = matchRoutes(routes, req.url)
   const promises = branch.map(({ route, match }) => {
     let fetchData = route.fetchData

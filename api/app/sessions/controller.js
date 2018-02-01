@@ -7,21 +7,26 @@ const SessionsController = {
     const user = Users.findByEmail(email)
 
     Users.verify(user, password).then(isValid => {
-      if(isValid) {
+      if (isValid) {
         res
-          .header('Authorization', `Bearer ${Users.genToken(user)}`)
+          .cookie('accessToken', Users.genToken(user), { httpOnly: true })
           .status(201)
-          .json({ user: SessionsSerializer.for('create', user)})
+          .json({ user: SessionsSerializer.for('create', user) })
       } else {
-        res
-          .status(401)
-          .json({
-            user: {
-              errors: ['Invalid credentials.']
-            }
-          })
+        res.status(401).json({
+          user: {
+            errors: ['Invalid credentials.']
+          }
+        })
       }
     })
+  },
+
+  destroy(req, res) {
+    res
+      .status(204)
+      .cookie('accessToken', '', { httpOnly: true })
+      .send()
   }
 }
 

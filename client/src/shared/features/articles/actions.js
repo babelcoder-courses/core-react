@@ -82,7 +82,8 @@ export function createArticle(article) {
           }
         },
         CREATE_ARTICLE_FAILURE
-      ]
+      ],
+      credentials: 'include'
     }
   }
 }
@@ -108,7 +109,8 @@ export function editArticle(id, article) {
           }
         },
         EDIT_ARTICLE_FAILURE
-      ]
+      ],
+      credentials: 'include'
     }
   }
 }

@@ -2,14 +2,14 @@ if (typeof localStorage === 'undefined') {
   global.localStorage = { setItem() {}, getItem() {}, clearToken() {} }
 }
 
-export function setToken(token) {
-  localStorage.setItem('access-token', token)
+export function setAuth(token) {
+  localStorage.setItem('auth', token)
 }
 
-export function getToken() {
-  return localStorage.getItem('access-token')
+export function getAuth() {
+  return localStorage.getItem('auth')
 }
 
-export function clearToken() {
-  localStorage.removeItem('access-token')
+export function clearAuth() {
+  localStorage.removeItem('auth')
 }

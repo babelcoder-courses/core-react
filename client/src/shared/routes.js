@@ -3,6 +3,7 @@ import Loadable from 'react-loadable'
 
 import App from 'Features/ui/components/App'
 import { loadArticles, loadArticle } from 'Features/articles/actions'
+import { loadAuth } from 'Features/auth/actions'
 
 const Loading = () => <div>Loading...</div>
 
@@ -45,6 +46,7 @@ const AsyncArticles = Loadable({
 const routes = [
   {
     component: App,
+    fetchData: dispatch => dispatch(loadAuth()),
     routes: [
       {
         path: '/login',

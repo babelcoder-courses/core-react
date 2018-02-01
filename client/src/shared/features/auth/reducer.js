@@ -1,18 +1,20 @@
-import { REGISTER_SUCCESS, LOGIN_SUCCESS, LOGOUT, LOAD_AUTH } from '../../types'
-import { getToken } from 'Lib'
+import {
+  REGISTER_SUCCESS,
+  LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
+  LOAD_AUTH_SUCCESS
+} from '../../types'
 
-const initialState = {
-  token: getToken()
-}
+const initialState = {}
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-    case LOAD_AUTH:
-      return { token: action.payload.token }
-    case LOGOUT:
-      return { token: null }
+    case LOAD_AUTH_SUCCESS:
+      return { ...action.payload.user }
+    case LOGOUT_SUCCESS:
+      return initialState
     default:
       return state
   }
